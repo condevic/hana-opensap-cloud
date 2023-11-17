@@ -38,3 +38,12 @@ resources:
     parameters:
       service: hana
       service-plan: hdi-shared
+
+#---------------------------------------------
+  - name: cross-container-service-1
+#---------------------------------------------
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service-name: CROSS_SCHEMA_SFLIGHT
+    properties:
+      ServiceName_1: '${service-name}'
