@@ -23,32 +23,40 @@
     "build": {
       "target": ".",
       "tasks": [
-          {
-              "for": "hana",
-              "src": "db",
-              "options": {
-                  "model": [
-                      "db",
-                      "srv"
-                      
-                  ]
-              }
-          },
-          {
-              "for": "node-cf",
-              "src": "srv",
-              "options": {
-                  "model": [
-                      "db",
-                      "srv"
-                  ]
-              }
+        {
+          "for": "hana",
+          "src": "db",
+          "options": {
+            "model": [
+              "db",
+              "srv"
+            ]
           }
+        },
+        {
+          "for": "hana",
+          "src": "user_db",
+          "options": {
+            "model": [
+              "user_db"
+            ]
+          }
+        },
+        {
+          "for": "node-cf",
+          "src": "srv",
+          "options": {
+            "model": [
+              "db",
+              "srv"
+            ]
+          }
+        }
       ]
-  },
-  "features": {
-    "snapi": true
-},
+    },
+    "features": {
+      "snapi": true
+    },
     "hana": {
       "deploy-format": "hdbtable"
     },

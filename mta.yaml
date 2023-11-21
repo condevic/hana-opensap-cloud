@@ -32,6 +32,14 @@ modules:
     requires:
       - name: hana-opensap-cloud-db
 
+  - name: user_db
+    type: hdb
+    path: user_db  
+    parameters:
+      app-name: hana-opensap-cloud-user-db
+    requires:
+      - name: hana-opensap-cloud-user-db  
+
 resources:
   - name: hana-opensap-cloud-db
     type: com.sap.xs.hdi-container
@@ -39,9 +47,15 @@ resources:
       service: hana
       service-plan: hdi-shared
 
-#---------------------------------------------
+  - name: hana-opensap-cloud-user-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana 
+      service-plan: hdi-shared
+    properties:
+      hdi-service-name: ${service-name}
+
   - name: cross-container-service-1
-#---------------------------------------------
     type: org.cloudfoundry.existing-service
     parameters:
       service-name: CROSS_SCHEMA_SFLIGHT
