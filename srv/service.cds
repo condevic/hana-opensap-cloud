@@ -1,0 +1,44 @@
+using {
+    opensap.PurchaseOrder.Headers as Headers,
+    opensap.PurchaseOrder.Items as Items,
+    opensap.PurchaseOrder.POWorklist as POWorklist
+} from '../db/schema';
+
+
+using {
+    opensap.MD.Addresses as Addr,
+    opensap.MD.Employees as Empl,
+    opensap.MD.BusinessPartners as BP,
+    opensap.MD.Products as Prod,
+    opensap.MD.ProductImages as ProdImages,
+    opensap.MD.productCategoryVH as prodCat,
+    opensap.MD.BuyerView as BuyerViewNative,
+    opensap.MD.partnerRoles as partRoles,
+    opensap.MD
+} from '../db/schema';
+
+using USERDATA_USER_LOCAL as UserDetails from '../db/schema';
+
+service MasterDataService @(impl : './handlers/md-service.js')@(path : '/odata/v4/MasterDataService') {
+//service MasterDataService @(impl : './handlers/md-service.js')@(path : '/MasterDataService') {
+    entity Addresses                                             as projection on Addr;
+    entity Employees                                             as projection on Empl;
+    entity User                                                  as projection on UserDetails;
+    entity BusinessPartners @(title : '{i18n>businessParnters}') as projection on BP;
+
+    entity Products @(title : '{i18n>products}')                 as projection on Prod {
+        * , partner : redirected to BusinessPartners
+    };
+
+    @readonly
+    view productCategoryVH as select from prodCat;
+
+    view partnerRoles as select from partRoles;
+    view Buyer as select from BuyerViewNative;
+
+    entity ProductImages                                         as projection on ProdImages {
+        * , product : redirected to Products
+    };
+
+    function loadProductImages() returns Boolean;
+}
